@@ -10,9 +10,8 @@
 
 			<hr>
 
-			<div style = "width: 64rem; height: 32rem; border: solid black 4px; background-color: white;">
-				<p>Interactive window goes here.</p>
-			</div>
+			<canvas id = "map_container" style = "width: 64rem; height: 32rem; border: solid black 4px; background-color: white;">
+			</canvas>
 
 			<hr>
 
@@ -22,8 +21,10 @@
 				<p>Visual representation of graph algorithms.</p>
 			</div>
 		</center>
+
+		<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+		<script src="js/pathFinder.js"></script>
+
 	</body>
-
-	<script src="js/pathFinder.js"></script>
-
 </html>
