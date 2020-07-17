@@ -1,4 +1,6 @@
 var c = document.getElementById("mapContainer");
+var cLeft = c.offsetLeft + c.clientLeft;
+var cTop = c.offsetTop + c.clientTop;
 var ctx = c.getContext("2d");
 
 var i;
@@ -45,6 +47,13 @@ for (i = 0; i < 20; i++) {
 */
 
 c.addEventListener('click', function(event) {
-    alert("Canvas was clicked");
+    var x = event.pageX - cLeft;
+    var y = event.pageY - cTop;
+    alert("Canvas was clicked on " + x + ", " + y);
 }, false);
+
+
+
+
+
 
