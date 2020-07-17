@@ -4,6 +4,11 @@ var ctx = c.getContext("2d");
 var i;
 var j;
 
+var startX = 4,
+    startY = 4,
+    endX = 15,
+    endY = 4;
+
 // setup grid
 var grid = [];
 for (i = 0; i < 20; i++) {
@@ -23,6 +28,10 @@ for (i = 1; i < 11; i++) {
     ctx.lineTo(1000, 50 * i);
 }
 ctx.stroke();
+
+// draw start and end
+ctx.fillText("Start", 25 + 50 * startX, 25 + 50 * startY);
+ctx.fillText("End", 25 + 50 * endX, 25 + 50 * endY);
 
 /*
 // test grid array
