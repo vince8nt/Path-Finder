@@ -47,9 +47,16 @@ for (i = 0; i < 20; i++) {
 */
 
 c.addEventListener('click', function(event) {
-    var x = event.pageX - cLeft;
-    var y = event.pageY - cTop;
-    alert("Canvas was clicked on " + x + ", " + y);
+    var screenX = event.pageX - cLeft;
+    var screenY = event.pageY - cTop;
+    var x = Math.floor(screenX / 50);
+    var y = Math.floor(screenY / 50);
+    if (y < 10) {
+        alert("Square (" + x + ", " + y + ") was clicked.");
+    }
+    else {
+        alert("Canvas was clicked in bottom section.");
+    }
 }, false);
 
 
