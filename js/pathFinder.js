@@ -21,26 +21,42 @@ for (i = 0; i < 20; i++) {
     }
 }
 
-// draw grid
-for (i = 1; i < 20; i++) {
-    ctx.moveTo(50 * i, 0);
-    ctx.lineTo(50 * i, 500);
-}
-for (i = 1; i < 11; i++) {
-    ctx.moveTo(0, 50 * i);
-    ctx.lineTo(1000, 50 * i);
-}
-ctx.stroke();
-
-// draw buttons
+// draw whole thing
+drawMap();
 drawButtons();
 drawGo();
 
-// draw start and end
-drawStart();
-drawEnd();
 
 // ----------------------------------------------- end of setup
+function drawMap () {
+    // clear existing map
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, 1000, 500);
+    ctx.fillStyle = "#000000";
+    // draw grid
+    ctx.strokeStyle = "#000000";
+    for (i = 1; i < 20; i++) {
+        ctx.moveTo(50 * i, 0);
+        ctx.lineTo(50 * i, 500);
+    }
+    for (i = 1; i < 11; i++) {
+        ctx.moveTo(0, 50 * i);
+        ctx.lineTo(1000, 50 * i);
+    }
+    ctx.stroke();
+    // draw barriers
+    for (i = 0; i < 20; i++) {
+        for (j = 0; j < 10; j++) {
+            if (grid[i][j] === 1) {
+                barrier(i, j);
+            }
+        }
+    }
+    // draw start and end
+    drawStart();
+    drawEnd();
+}
+
 
 function drawStart (x, y) {
     ctx.fillText("Start", 15 + 50 * startX, 28 + 50 * startY);
@@ -65,7 +81,6 @@ function drawButton (bold, title, x, y) {
     ctx.fillRect(x + 5, y + 5, 90, 40);
     ctx.fillStyle = "#000000";
     ctx.fillText(title, 10 + x, 30 + y);
-
 }
 
 function drawGo () {
@@ -183,6 +198,7 @@ function selectButton (screenX, screenY) {
 
 function go () {
     if (goStatus === "clear") {
+        drawMap();
         goStatus = "go";
         drawGo();
     }
