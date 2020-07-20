@@ -33,8 +33,12 @@ ctx.stroke();
 drawButtons("barrier");
 
 // draw start and end
+/*
 ctx.fillText("Start", 25 + 50 * startX, 25 + 50 * startY);
 ctx.fillText("End", 25 + 50 * endX, 25 + 50 * endY);
+*/
+drawStart(startX, startY);
+drawEnd(endX, endY);
 
 /*
 // test grid array
@@ -46,6 +50,14 @@ for (i = 0; i < 20; i++) {
     }
 }
 */
+
+function drawStart (x, y) {
+    ctx.fillText("Start", 25 + 50 * x, 25 + 50 * y);
+}
+
+function drawEnd (x, y) {
+    ctx.fillText("End", 25 + 50 * x, 25 + 50 * y);
+}
 
 function drawButtons (selected) {
     drawButton(selected === "barrier", "barrier", 150, 525);
