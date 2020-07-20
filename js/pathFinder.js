@@ -11,7 +11,7 @@ var startX = 4,
 
 var clickMode = "barrier";
 
-// setup grid
+// setup grid - 0:open, 1:blocked
 var grid = [];
 for (i = 0; i < 20; i++) {
     grid[i] = [];
@@ -33,21 +33,13 @@ ctx.stroke();
 
 // draw buttons
 drawButtons();
+drawGo("go");
 
 // draw start and end
 drawStart();
 drawEnd();
 
-/*
-// test grid array
-for (i = 0; i < 20; i++) {
-    for (j = 0; j < 10; j++) {
-        if (grid[i][j] === 0) {
-            ctx.fillText("0", 25 + 50 * i, 25 + 50 * j);
-        }
-    }
-}
-*/
+// ----------------------------------------------- end of setup
 
 function drawStart (x, y) {
     ctx.fillText("Start", 15 + 50 * startX, 28 + 50 * startY);
@@ -73,6 +65,19 @@ function drawButton (bold, title, x, y) {
     ctx.fillStyle = "#000000";
     ctx.fillText(title, 10 + x, 30 + y);
 
+}
+
+function drawGo (state) {
+    ctx.fillRect(850, 525, 100, 50);
+    if (state === "go")
+        ctx.fillStyle = "#00FF00";
+    else if (state === "going")
+        ctx.fillStyle = "#00C000";
+    else // state === "clear"
+        ctx.fillStyle = "#C00000";
+    ctx.fillRect(855, 530, 90, 40);
+    ctx.fillStyle = "#000000";
+    ctx.fillText(state, 860, 555);
 }
 
 c.addEventListener('click', function(event) {
@@ -106,6 +111,7 @@ c.addEventListener('click', function(event) {
 function barrier (x, y) {
     if (squareTaken(x, y)) return;
     ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
+    grid[x][y] = 1;
 }
 
 function eraser (x, y) {
@@ -117,6 +123,7 @@ function clear (x, y) {
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
     ctx.fillStyle = "#000000";
+    grid[x][y] = 0;
 }
 
 function setStart (x, y) {
