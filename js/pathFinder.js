@@ -10,6 +10,7 @@ var startX = 4,
     endY = 4;
 
 var clickMode = "barrier";
+var goStatus = "go";
 
 // setup grid - 0:open, 1:blocked
 var grid = [];
@@ -33,7 +34,7 @@ ctx.stroke();
 
 // draw buttons
 drawButtons();
-drawGo("go");
+drawGo();
 
 // draw start and end
 drawStart();
@@ -67,17 +68,17 @@ function drawButton (bold, title, x, y) {
 
 }
 
-function drawGo (state) {
+function drawGo () {
     ctx.fillRect(850, 525, 100, 50);
-    if (state === "go")
+    if (goStatus === "go")
         ctx.fillStyle = "#00FF00";
-    else if (state === "going")
+    else if (goStatus === "going")
         ctx.fillStyle = "#00C000";
-    else // state === "clear"
+    else // goStatus === "clear"
         ctx.fillStyle = "#C00000";
     ctx.fillRect(855, 530, 90, 40);
     ctx.fillStyle = "#000000";
-    ctx.fillText(state, 860, 555);
+    ctx.fillText(goStatus, 860, 555);
 }
 
 c.addEventListener('click', function(event) {
@@ -89,6 +90,7 @@ c.addEventListener('click', function(event) {
     var y = Math.floor(screenY / 50);
     // a square was clicked
     if (y < 10) {
+        if (goStatus !== "go") return;
         if (clickMode === "barrier") {
             barrier (x, y);
         }
@@ -172,7 +174,29 @@ function selectButton (screenX, screenY) {
             clickMode = "set end";
             drawButtons();
         }
+        else if (850 < screenX && screenX < 950) {
+            if (goStatus === "going") return;
+            go ();
+        }
     }
+}
+
+function go () {
+    if (goStatus === "clear") {
+        goStatus = "go";
+        drawGo();
+    }
+    else {
+        goStatus = "going";
+        drawGo();
+        BFS();
+        goStatus = "clear";
+        drawGo();
+    }
+}
+
+function BFS () {
+
 }
 
 
