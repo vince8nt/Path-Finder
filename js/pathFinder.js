@@ -1,6 +1,4 @@
 var c = document.getElementById("mapContainer");
-var cLeft = c.offsetLeft + c.clientLeft;
-var cTop = c.offsetTop + c.clientTop;
 var ctx = c.getContext("2d");
 
 var i;
@@ -68,6 +66,8 @@ function drawButton (bold, title, x, y) {
 }
 
 c.addEventListener('click', function(event) {
+    var cLeft = c.offsetLeft + c.clientLeft;
+    var cTop = c.offsetTop + c.clientTop;
     var screenX = event.pageX - cLeft;
     var screenY = event.pageY - cTop;
     var x = Math.floor(screenX / 50);
