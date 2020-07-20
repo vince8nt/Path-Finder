@@ -104,29 +104,47 @@ c.addEventListener('click', function(event) {
 }, false);
 
 function barrier (x, y) {
+    if (squareTaken(x, y)) return;
     ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
 }
 
 function eraser (x, y) {
+    if (squareTaken(x, y)) return;
+    clear(x, y);
+}
+
+function clear (x, y) {
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
     ctx.fillStyle = "#000000";
 }
 
 function setStart (x, y) {
-    eraser(startX, startY);
+    if (squareTaken(x, y)) return;
+    clear(startX, startY);
     startX = x;
     startY = y;
-    eraser(startX, startY);
+    clear(startX, startY);
     drawStart();
 }
 
 function setEnd (x, y) {
-    eraser(endX, endY);
+    if (squareTaken(x, y)) return;
+    clear(endX, endY);
     endX = x;
     endY = y;
-    eraser(endX, endY);
+    clear(endX, endY);
     drawEnd();
+}
+
+function squareTaken (x, y) {
+    if (x === startX && y === startY) {
+        return true;
+    }
+    if (x === endX && y === endY) {
+        return true;
+    }
+    return false;
 }
 
 function selectButton (screenX, screenY) {
