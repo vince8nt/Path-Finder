@@ -9,6 +9,8 @@ var startX = 4,
     endX = 15,
     endY = 4;
 
+var clickMode = "barrier";
+
 // setup grid
 var grid = [];
 for (i = 0; i < 20; i++) {
@@ -30,15 +32,11 @@ for (i = 1; i < 11; i++) {
 ctx.stroke();
 
 // draw buttons
-drawButtons("barrier");
+drawButtons();
 
 // draw start and end
-/*
-ctx.fillText("Start", 25 + 50 * startX, 25 + 50 * startY);
-ctx.fillText("End", 25 + 50 * endX, 25 + 50 * endY);
-*/
-drawStart(startX, startY);
-drawEnd(endX, endY);
+drawStart();
+drawEnd();
 
 /*
 // test grid array
@@ -52,18 +50,18 @@ for (i = 0; i < 20; i++) {
 */
 
 function drawStart (x, y) {
-    ctx.fillText("Start", 25 + 50 * x, 25 + 50 * y);
+    ctx.fillText("Start", 15 + 50 * startX, 28 + 50 * startY);
 }
 
 function drawEnd (x, y) {
-    ctx.fillText("End", 25 + 50 * x, 25 + 50 * y);
+    ctx.fillText("End", 18 + 50 * endX, 28 + 50 * endY);
 }
 
-function drawButtons (selected) {
-    drawButton(selected === "barrier", "barrier", 150, 525);
-    drawButton(selected === "eraser", "eraser", 300, 525);
-    drawButton(selected === "set start", "set start", 450, 525);
-    drawButton(selected === "set end", "set end", 600, 525);
+function drawButtons () {
+    drawButton(clickMode === "barrier", "barrier", 150, 525);
+    drawButton(clickMode === "eraser", "eraser", 300, 525);
+    drawButton(clickMode === "set start", "set start", 450, 525);
+    drawButton(clickMode === "set end", "set end", 600, 525);
 }
 
 function drawButton (bold, title, x, y) {
@@ -84,17 +82,73 @@ c.addEventListener('click', function(event) {
     var screenY = event.pageY - cTop;
     var x = Math.floor(screenX / 50);
     var y = Math.floor(screenY / 50);
-
     // a square was clicked
     if (y < 10) {
-        alert("Square (" + x + ", " + y + ") was clicked.");
-        ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
+        if (clickMode === "barrier") {
+            barrier (x, y);
+        }
+        else if (clickMode === "eraser") {
+            eraser (x, y);
+        }
+        else if (clickMode === "set start") {
+            setStart (x, y);
+        }
+        else {
+            setEnd (x, y);
+        }
     }
     // a square wasn't clicked
     else {
-        alert("Canvas was clicked in bottom section.");
+        selectButton(screenX, screenY);
     }
 }, false);
+
+function barrier (x, y) {
+    ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
+}
+
+function eraser (x, y) {
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(50 * x + 5, 50 * y + 5, 40, 40);
+    ctx.fillStyle = "#000000";
+}
+
+function setStart (x, y) {
+    eraser(startX, startY);
+    startX = x;
+    startY = y;
+    eraser(startX, startY);
+    drawStart();
+}
+
+function setEnd (x, y) {
+    eraser(endX, endY);
+    endX = x;
+    endY = y;
+    eraser(endX, endY);
+    drawEnd();
+}
+
+function selectButton (screenX, screenY) {
+    if (525 < screenY && screenY < 575) {
+        if (150 < screenX && screenX < 250) { // barrier
+            clickMode = "barrier";
+            drawButtons();
+        }
+        else if (300 < screenX && screenX < 400) { // eraser
+            clickMode = "eraser";
+            drawButtons();
+        }
+        else if (450 < screenX && screenX < 550) { // set start
+            clickMode = "set start";
+            drawButtons();
+        }
+        else if (600 < screenX && screenX < 700) { // set end
+            clickMode = "set end";
+            drawButtons();
+        }
+    }
+}
 
 
 
