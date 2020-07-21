@@ -30,11 +30,10 @@ drawGo();
 // ----------------------------------------------- end of setup
 function drawMap () {
     // clear existing map
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(0, 0, 1000, 500);
+    ctx.beginPath();
+    ctx.clearRect(0, 0, 1000, 500);
     ctx.fillStyle = "#000000";
     // draw grid
-    ctx.strokeStyle = "#000000";
     for (i = 1; i < 20; i++) {
         ctx.moveTo(50 * i, 0);
         ctx.lineTo(50 * i, 500);
@@ -212,7 +211,74 @@ function go () {
 }
 
 function BFS () {
+    // setup BFSgrid - [[parent X, parent Y], depth]
+    // undiscovered squares have depth -1
+    var BFSgrid = [];
+    for (i = 0; i < 20; i++) {
+        BFSgrid[i] = [];
+        for (j = 0; j < 10; j++) {
+            BFSgrid[i][j] = [[-1, -1], -1];
+        }
+    }
 
+    var Q = [[startX, startY]];
+    BFSgrid[startX][startY][1] = 0; // set depth to 0
+    while (Q.length !== 0) {
+        var cur = Q.shift();
+        var x = cur[0],
+            y = cur[1];
+        var depth = BFSgrid[x][y][1];
+        if (x === endX && y === endY) {
+            alert("A " + depth + " length path was found.");
+            return;
+        }
+        // check all edges
+        // left
+        if (x > 0 && grid[x - 1][y] === 0 && BFSgrid[x - 1][y][1] === -1) {
+            BFSgrid[x - 1][y][0] = [x, y]; // set parent
+            BFSgrid[x - 1][y][1] = depth + 1; // set depth
+            Q.push([x - 1, y]);
+            // draw line there
+            ctx.beginPath();
+            ctx.moveTo(50 * x + 25, 50 * y + 25);
+            ctx.lineTo(50 * (x - 1) + 25, 50 * y + 25);
+            ctx.stroke();
+        }
+        // right
+        if (x < 19 && grid[x + 1][y] === 0 && BFSgrid[x + 1][y][1] === -1) {
+            BFSgrid[x + 1][y][0] = [x, y]; // set parent
+            BFSgrid[x + 1][y][1] = depth + 1; // set depth
+            Q.push([x + 1, y]);
+            // draw line there
+            ctx.beginPath();
+            ctx.moveTo(50 * x + 25, 50 * y + 25);
+            ctx.lineTo(50 * (x + 1) + 25, 50 * y + 25);
+            ctx.stroke();
+        }
+        // up
+        if (y > 0 && grid[x][y - 1] === 0 && BFSgrid[x][y - 1][1] === -1) {
+            BFSgrid[x][y - 1][0] = [x, y]; // set parent
+            BFSgrid[x][y - 1][1] = depth + 1; // set depth
+            Q.push([x, y - 1]);
+            // draw line there
+            ctx.beginPath();
+            ctx.moveTo(50 * x + 25, 50 * y + 25);
+            ctx.lineTo(50 * x + 25, 50 * (y - 1) + 25);
+            ctx.stroke();
+        }
+        // down
+        if (y < 9 && grid[x][y + 1] === 0 && BFSgrid[x][y + 1][1] === -1) {
+            BFSgrid[x][y + 1][0] = [x, y]; // set parent
+            BFSgrid[x][y + 1][1] = depth + 1; // set depth
+            Q.push([x, y + 1]);
+            // draw line there
+            ctx.beginPath();
+            ctx.moveTo(50 * x + 25, 50 * y + 25);
+            ctx.lineTo(50 * x + 25, 50 * (y + 1) + 25);
+            ctx.stroke();
+        }
+    }
+    alert("No path was found.");
 }
 
 
