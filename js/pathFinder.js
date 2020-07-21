@@ -42,6 +42,8 @@ function drawMap () {
         ctx.moveTo(0, 50 * i);
         ctx.lineTo(1000, 50 * i);
     }
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#000000";
     ctx.stroke();
     // draw barriers
     for (i = 0; i < 20; i++) {
@@ -223,6 +225,8 @@ function BFS () {
 
     var Q = [[startX, startY]];
     BFSgrid[startX][startY][1] = 0; // set depth to 0
+    ctx.strokeStyle = "#9090FF";
+    ctx.lineWidth = 2;
     while (Q.length !== 0) {
         var cur = Q.shift();
         var x = cur[0],
@@ -230,6 +234,7 @@ function BFS () {
         var depth = BFSgrid[x][y][1];
         if (x === endX && y === endY) {
             alert("A " + depth + " length path was found.");
+            traceBack(BFSgrid);
             return;
         }
         // check all edges
@@ -279,6 +284,22 @@ function BFS () {
         }
     }
     alert("No path was found.");
+}
+
+function traceBack(searchGrid) {
+    var x = endX,
+        y = endY;
+    ctx.strokeStyle = "#0000FF";
+    ctx.lineWidth = 4;
+    while (searchGrid[x][y][0][0] !== -1) {
+        ctx.beginPath();
+        ctx.moveTo(50 * x + 25, 50 * y + 25);
+        var cur = searchGrid[x][y][0];
+        x = cur[0];
+        y = cur[1];
+        ctx.lineTo(50 * x + 25, 50 * y + 25);
+        ctx.stroke();
+    }
 }
 
 
