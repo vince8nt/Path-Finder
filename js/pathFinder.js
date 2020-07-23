@@ -352,8 +352,9 @@ function Dijkstra() {
 
 function neighbor(x, y, orX, orY, searchGrid) {
     if (-1 < x && -1 < y && 20 > x && 10 > y && grid[x][y] === 0) {
-        var dist = searchGrid[orX][orY][1];
-        dist += Math.sqrt(Math.abs(x - orX) + Math.abs(y - orY));
+        var dist = searchGrid[orX][orY][1] + 1;
+        // dist += Math.sqrt(Math.abs(x - orX) + Math.abs(y - orY));
+        if (x !== orX && y !== orY) dist += 0.4142;
         if (searchGrid[x][y][1] === -1 || dist < searchGrid[x][y][1]) {
             searchGrid[x][y][1] = dist;
             searchGrid[x][y][0] = [orX, orY];
