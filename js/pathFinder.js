@@ -206,7 +206,13 @@ function go () {
     else {
         goStatus = "going";
         drawGo();
-        Dijkstra();
+        var searchType = document.getElementById("searchOptions").selectedIndex;
+        if(searchType === 0) {
+            BFS();
+        }
+        else {
+            Dijkstra();
+        }
         goStatus = "clear";
         drawGo();
     }
