@@ -350,12 +350,16 @@ function Dijkstra() {
     }
 }
 
-function neighbor(x, y, orX, orY, searchGrid) {
+function neighbor(x, y, orX, orY, searchGrid) { // for dijkstra
     if (-1 < x && -1 < y && 20 > x && 10 > y && grid[x][y] === 0) {
+        if (x !== orX && y !== orY) {
+            if (grid[orX][y] === 1 || grid[x][orY] === 1) {
+                return;
+            }
+        }
         var dist = searchGrid[orX][orY][1];
         dist += Math.sqrt(Math.abs(x - orX) + Math.abs(y - orY));
-        dist = Math.round(dist * 1000) / 1000;
-        // if (x !== orX && y !== orY) dist += 0.4142;
+        dist = Math.round(dist * 1000) / 1000; // fix rounding error
         if (searchGrid[x][y][1] === -1 || dist < searchGrid[x][y][1]) {
             searchGrid[x][y][1] = dist;
             searchGrid[x][y][0] = [orX, orY];
