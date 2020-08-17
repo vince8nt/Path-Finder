@@ -2,34 +2,84 @@
 <html>
 	<head>
 		<title>Path Finder</title>
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<style>
+			body {
+				background-color: black;
+				background-image: url("images/clouds.svg");
+				background-size: 100%;
+				background-repeat: no-repeat;
+				margin: 0px;
+				color: #30D020;
+				font-family: Arial;
+			}
+			.myButton {
+				width: auto;
+				padding: 4px;
+				border: solid #30D020 2px;
+				border-radius: 8px;
+				background-color: #30D020;
+				color: #000000;
+				text-decoration: none;
+				transition: all 0.2s;
+
+			}
+			.myButton:hover {
+				background-color: #000000;
+				color: #30D020;
+			}
+		</style>
 	</head>
-	<body style = "background-color: lightblue;">
-		<center>
-			<h1>Path Finder</h1>
-			<h2>By Vincent Titterton</h2>
+	<body>
+		<div style="margin: 5px; margin-top: 30px;">
+			<a class="myButton" style="margin-left: 40px; font-family: Arial Black;" href="https://vince8nt.github.io/">Home</a>
+			<center>
+				<h1 style="font-family: Arial Black; color: white;">Path Finder</h1>
+				<h2 style="font-family: Arial Black;">by Vincent Titterton</h2>
+				<canvas id="mapContainer" width="1000" height="600" style="background-color: white; border: solid #30D020 4px;">
+				</canvas>
 
-			<hr>
+				<br>
+				<select id = "searchOptions">
+					<option value="BFS_value">Breadth First Search</option>
+					<option value="Dijkstra_value">Dijkstra's Algorithm</option>
+				</select>
+				
+				<h2 style="font-family: Arial Black;">About this project</h2>
+				<div style="border: solid #30D020 4px; border-radius: 8px; width: 600px; padding: 20px; background-color: #D8D8D8;">
+					<a class="myButton" href="https://github.com/vince8nt/Path-Finder" target="_blank">Source Code</a>
+					<div style="text-align: left; color: black; margin-top: 8px;">
+						<a>Language: JavaScript <br> Framework: HTML Canvas</a>
+						<p>A shortest path finding program. Includes a 20 x 10 graph with a GUI for setting start / end squares and placing / deleting barriers. It also includes a pull down menu to select between two path-finding algorithms (Breadth First Search and Dijkstra's algorithm). Dijkstra's algorithm enables diagonal moves which have 1.414 units of distance.</p>
+					</div>
+					<hr>
+					<a style="font-family: Arial Black; color: #381bff;">Try my other JavaScript Projects:</a>
+					<br>
+					<br>
+					<a class="myButton" href="https://vince8nt.github.io/sorter/">Sorter</a>
+					<a class="myButton" href="https://vince8nt.github.io/minesweeper/">Minesweeper</a>
+				</div>
+				
+			</center>
+		</div>
 
-			<canvas id = "mapContainer" width = "1000" height = "600" style = "border: solid black 4px; background-color: white;">
-			</canvas>
-
-			<hr>
-
-			<select id = "searchOptions">
-				<option value="BFS_value">Breadth First Search</option>
-				<option value="Dijkstra_value">Dijkstra's Algorithm</option>
-			</select>
-
-			<hr>
-
-			<div style = "width: 32rem; border: solid black 4px; background-color: lightgray; padding: 10px;">
-				<h2>About This Project</h2>
-				<a href = "https://github.com/vince8nt/Path-Finder" target = "_blank">Source Code</a>
-				<p>Visual representation of graph algorithms.</p>
-			</div>
-		</center>
+		<!-- footer -->
+		<div style = "width: fill; border-top: solid #30D020 4px; border-left: 0px; background-color: #381bff; padding: 25px; margin-top: 60px;">
+			<a style = "color: white; font-family: Arial Black;">© 2020 Vincent Titterton.</a>
+		</div>
 
 		<script src="js/pathFinder.js"></script>
-
 	</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
