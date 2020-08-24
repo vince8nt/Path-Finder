@@ -303,7 +303,7 @@ function BFS () {
             moves.push([x, y, x, y + 1]);
         }
     }
-    alert("No path was found.");
+    doMoves(moves, BFSgrid, -1);
 }
 
 function Dijkstra() {
