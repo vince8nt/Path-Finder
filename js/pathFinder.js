@@ -234,7 +234,10 @@ function move(x1, y1, x2, y2) {
 }
 
 function endMoves(searchGrid, depth) {
-    alert("A " + depth + " length path was found.");
+    if (depth == -1)
+        alert("No path was found.");
+    else
+        alert("A " + depth + " length path was found.");
     traceBack(searchGrid);
     goStatus = "clear";
     drawGo();
@@ -312,6 +315,8 @@ function Dijkstra() {
         }
     }
 
+    var moves = [];
+
     searchGrid[startX][startY][1] = 0; // set depth to 0
     ctx.strokeStyle = "#9090FF";
     ctx.lineWidth = 2;
@@ -344,30 +349,29 @@ function Dijkstra() {
         }
         // no move found
         if (min === -1) {
-            alert("No path was found.");
+            doMoves(moves, searchGrid, -1);
             return;
         }
         // remove tile
         searchGrid[x][y][2] = false;
         // path found
         if (x === endX && y === endY) {
-            alert("A " + searchGrid[x][y][1] + " length path was found.");
-            traceBack(searchGrid);
+            doMoves(moves, searchGrid, searchGrid[x][y][1]);
             return;
         }
         // try all neighbors
-        neighbor(x - 1, y, x, y, searchGrid);
-        neighbor(x + 1, y, x, y, searchGrid);
-        neighbor(x, y - 1, x, y, searchGrid);
-        neighbor(x, y + 1, x, y, searchGrid);
-        neighbor(x - 1, y - 1, x, y, searchGrid);
-        neighbor(x - 1, y + 1, x, y, searchGrid);
-        neighbor(x + 1, y - 1, x, y, searchGrid);
-        neighbor(x + 1, y + 1, x, y, searchGrid);
+        neighbor(x - 1, y, x, y, searchGrid, moves);
+        neighbor(x + 1, y, x, y, searchGrid, moves);
+        neighbor(x, y - 1, x, y, searchGrid, moves);
+        neighbor(x, y + 1, x, y, searchGrid, moves);
+        neighbor(x - 1, y - 1, x, y, searchGrid, moves);
+        neighbor(x - 1, y + 1, x, y, searchGrid, moves);
+        neighbor(x + 1, y - 1, x, y, searchGrid, moves);
+        neighbor(x + 1, y + 1, x, y, searchGrid, moves);
     }
 }
 
-function neighbor(x, y, orX, orY, searchGrid) { // for dijkstra
+function neighbor(x, y, orX, orY, searchGrid, moves) { // for dijkstra
     if (-1 < x && -1 < y && 20 > x && 10 > y && grid[x][y] === 0) {
         if (x !== orX && y !== orY) {
             if (grid[orX][y] === 1 || grid[x][orY] === 1) {
@@ -380,10 +384,7 @@ function neighbor(x, y, orX, orY, searchGrid) { // for dijkstra
         if (searchGrid[x][y][1] === -1 || dist < searchGrid[x][y][1]) {
             searchGrid[x][y][1] = dist;
             searchGrid[x][y][0] = [orX, orY];
-            ctx.beginPath();
-            ctx.moveTo(50 * orX + 25, 50 * orY + 25);
-            ctx.lineTo(50 * x + 25, 50 * y + 25);
-            ctx.stroke();
+            moves.push([orX, orY, x, y]);
         }
     }
 }
